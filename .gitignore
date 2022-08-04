@@ -1,0 +1,2 @@
+# Make github not import the .env file
+.env
