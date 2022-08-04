@@ -3,17 +3,12 @@ import lightbulb
 import hikari
 from dotenv import load_dotenv
 
-from actionDict import actionDict
-
+from actionDict import actionDict, FULL, PARTIAL, NONE
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
 
 bot = lightbulb.BotApp(token=TOKEN)
-FULL = "✅ Fully Supported"
-PARTIAL = "⚠ Partially Supported"
-NONE = "❌ Not Supported"
-
 
 @bot.command
 @lightbulb.option("name", "The name of the action")
@@ -40,31 +35,54 @@ async def command(context):
   await context.respond(embed)
 
 @bot.command
-@lightbulb.add_checks(lightbulb.owner_only)
 @lightbulb.command('supportdump', 'Outputs a formatted version of all supported actions for use in supported_actions.md')
 @lightbulb.implements(lightbulb.SlashCommand)
 async def command(context):
   actions = list(actionDict.keys())
   result = ""
-
+  
   for action in actions:
     global prefix
     if(actionDict.get(action) == FULL): prefix = "✅"
     elif(actionDict.get(action) == PARTIAL): prefix = "⚠"
     result += "{prefix} {action}\n\n".format(action=action, prefix=prefix)
 
-  await context.respond("```{result}```".format(result=result))
+  f = open("supportdump.txt","w+", encoding="utf-8")
+  f.write(result)
+  f.close()
+
+  attachment = hikari.File(r"C:\Users\David\Desktop\Discord Bot\supportdump.txt");
+
+  await context.respond(
+      hikari.Embed(
+        title="✅ Success!",
+        description= "#️⃣ {amount} actions are currently supported.".format(amount=len(actions)),
+        color=hikari.Color.from_hex_code('#76ff57')
+      ), attachment=attachment
+    )
+
 
 
 @bot.listen(lightbulb.CommandErrorEvent)
-async def noPermEmbed(event):
-  await event.context.respond(
+async def catchErrors(event):
+  errColor = hikari.Color.from_hex_code("#cf1d1d")
+
+  if(isinstance(event.exception, lightbulb.NotOwner)):
+    await event.context.respond(
+        hikari.Embed(
+        title="🔨 No Permission", 
+        description="*You do not have permission to execute this command.*", 
+        color=errColor
+        )
+      )
+  else:
+    await event.context.respond(
       hikari.Embed(
-      title="🔨 No Permission", 
-      description="*You do not have permission to execute this command.*", 
-      color=hikari.Color.from_hex_code("#cf1d1d")
+        title="🔥 Waht?!",
+        description="An internal error occurred 😭",
+        color = errColor
       )
     )
-  
+    raise event.exception
 
 bot.run()
