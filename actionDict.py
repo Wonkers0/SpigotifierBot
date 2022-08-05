@@ -1,3 +1,6 @@
+from re import fullmatch
+
+
 FULL = "✅ Fully Supported"
 PARTIAL = "⚠ Partially Supported"
 NONE = "❌ Not Supported"
@@ -193,5 +196,26 @@ actionDict = {
   "StopSprint": FULL,
   "Jump": FULL,
   "ProjDmgPlayer": FULL,
-  "PlayerDmgPlayer": FULL
+  "PlayerDmgPlayer": FULL,
+  "LaunchProj": PARTIAL,
+  "Location": FULL,
+  "Current Health": FULL,
+  "Maximum Health": FULL,
+  "Absorption Health": FULL,
+  "Food Level": FULL,
+  "Food Saturation": FULL,
+  "Food Exhaustion": FULL,
+  "Attack Damage": FULL,
+  "Attack Speed": FULL,
+  "Armor Points": FULL,
+  "Armor Toughness": FULL,
+  "Invulnerability Ticks": FULL,
+  "Experience Level": FULL,
+  "Experience Progress": FULL,
+  "Fire Ticks": FULL,
+  "Freeze Ticks": FULL,
+  "Remaining Air": FULL,
+  "Fall Distance": FULL,
+  "Held Slot": FULL,
+  "Ping": FULL
 }
