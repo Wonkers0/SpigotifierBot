@@ -1,2 +1,2 @@
-# Make github not import the .env file
+__pycache__
 .env
