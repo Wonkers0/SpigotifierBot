@@ -68,9 +68,9 @@ async def command(context):
   await context.respond(
       hikari.Embed(
         title="About this bot",
-        description= "This bot was created by Wonk#8781.\n\nThe point of this bot is to help you check if an action is supported or not.\n\nYou can use the `/issupported` command to check if an action is supported or not.\n\nYou can use the `/supportdump` command to output a file of all supported actions.\n\nSource code: https://github.com/Wonkers0/SpigotifierBot",
+        description= "This bot was created by Wonk#8781.\n\nThe point of this bot is to help you check if an action is supported or not.\nYou can use the `/issupported` command to check if an action is supported or not.\nYou can use the `/supportdump` command to output a file of all supported actions.\n\nSource code: https://github.com/Wonkers0/SpigotifierBot",
         color=hikari.Color.from_hex_code('#76ff57')
-      ), attachment=attachment
+      ),
     )
 
 
