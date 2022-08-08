@@ -51,7 +51,7 @@ async def command(context):
   f.write(result)
   f.close()
 
-  attachment = hikari.File(r"C:\Users\David\Desktop\Discord Bot\supportdump.txt");
+  attachment = hikari.File(r"./supportdump.txt");
 
   await context.respond(
       hikari.Embed(
