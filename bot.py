@@ -25,9 +25,9 @@ async def command(context):
 
   action_name = str.lower(context.options.name)
   if(action_name in all_actions): 
-    embed = hikari.Embed(title=action_name, description=f'Found **{all_actions[action_name]}**', color=hikari.Color.from_hex_code('#76ff57'))
+    embed = hikari.Embed(title=action_name, description=f'✅ Found **{all_actions[action_name]}**', color=hikari.Color.from_hex_code('#76ff57'))
   else:
-    embed = hikari.Embed(title=action_name, description='Could not find the action.', color=hikari.Color.from_hex_code('#ff4747'))
+    embed = hikari.Embed(title=action_name, description='❌ Could not find the action.', color=hikari.Color.from_hex_code('#ff4747'))
 
   await context.respond(embed)
 
@@ -41,8 +41,8 @@ async def command(context):
 
   await context.respond(
       hikari.Embed(
-        title="Success!",
-        description= "{amount} actions are currently supported.".format(amount=len(action_list)),
+        title="✅ Success!",
+        description= "#️⃣ {amount} actions are currently supported.".format(amount=len(action_list)),
         color=hikari.Color.from_hex_code('#76ff57')
       ), attachment=attachment
     )
@@ -53,7 +53,7 @@ async def command(context):
 async def command(context):
   await context.respond(
       hikari.Embed(
-        title="About this bot",
+        title="🤔 About this bot",
         description= "This bot was created by Wonk#8781.\n\nThe point of this bot is to help you check if an action is supported or not.\nYou can use the `/issupported` command to check if an action is supported or not.\nYou can use the `/supportdump` command to output a file of all supported actions.\n\nSource code: https://github.com/Wonkers0/SpigotifierBot",
         color=hikari.Color.from_hex_code('#76ff57')
       ),
@@ -68,7 +68,7 @@ async def catch_errors(event):
   if(isinstance(event.exception, lightbulb.NotOwner)):
     await event.context.respond(
         hikari.Embed(
-        title="No Permission", 
+        title="🔨 No Permission", 
         description="*You do not have permission to execute this command.*", 
         color=err_color
         )
