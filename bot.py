@@ -36,7 +36,8 @@ async def command(context):
 @lightbulb.implements(lightbulb.SlashCommand)
 async def command(context):
 
-  attachment = hikari.File(r"./action/supportdump.md");
+
+  attachment = hikari.File(r"./supportdump.txt");
 
   await context.respond(
       hikari.Embed(
@@ -44,6 +45,18 @@ async def command(context):
         description= "{amount} actions are currently supported.".format(amount=len(action_list)),
         color=hikari.Color.from_hex_code('#76ff57')
       ), attachment=attachment
+    )
+
+@bot.command
+@lightbulb.command('about', 'About me')
+@lightbulb.implements(lightbulb.SlashCommand)
+async def command(context):
+  await context.respond(
+      hikari.Embed(
+        title="About this bot",
+        description= "This bot was created by Wonk#8781.\n\nThe point of this bot is to help you check if an action is supported or not.\nYou can use the `/issupported` command to check if an action is supported or not.\nYou can use the `/supportdump` command to output a file of all supported actions.\n\nSource code: https://github.com/Wonkers0/SpigotifierBot",
+        color=hikari.Color.from_hex_code('#76ff57')
+      ),
     )
 
 
