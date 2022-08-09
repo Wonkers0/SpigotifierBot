@@ -37,7 +37,7 @@ async def command(context):
 async def command(context):
 
 
-  attachment = hikari.File(r"./supportdump.txt");
+  attachment = hikari.File(r"./action/supportdump.md");
 
   await context.respond(
       hikari.Embed(
