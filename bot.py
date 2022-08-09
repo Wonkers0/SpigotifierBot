@@ -3,7 +3,8 @@ import lightbulb
 import hikari
 from dotenv import load_dotenv
 
-from actionDict import actionDict, FULL, PARTIAL, NONE
+from actionparser import actionInfo
+action_list = actionInfo['allActions'] + actionInfo['events']
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
@@ -15,48 +16,33 @@ bot = lightbulb.BotApp(token=TOKEN)
 @lightbulb.command('issupported', 'Tells you if an action is supported or not.')
 @lightbulb.implements(lightbulb.SlashCommand)
 async def command(context):
-  actionName = str.lower(context.options.name)
+  mapping = []
+  for action in action_list:
+    mapping.append(str.lower(action))
+    mapping.append(action)
+  all_actions = dict(zip(i := iter(mapping), i))
+  print(all_actions)
 
-  insensitiveDict = dict((k.lower(), v) for k, v in actionDict.items()) 
-
-  global actionSupport, color, displayName
-  if(actionName in insensitiveDict): 
-    actionSupport = insensitiveDict.get(actionName)
-    displayName = list(actionDict.keys())[list(insensitiveDict.keys()).index(actionName)]
+  action_name = str.lower(context.options.name)
+  if(action_name in all_actions): 
+    embed = hikari.Embed(title=action_name, description=f'Found **{all_actions[action_name]}**', color=hikari.Color.from_hex_code('#76ff57'))
   else:
-    actionSupport = NONE
-    displayName = context.options.name
-     
-  if(actionSupport == FULL): color = hikari.Color.from_hex_code('#76ff57')
-  elif(actionSupport == PARTIAL): color = hikari.Color.from_hex_code('#ff8f4a')
-  elif(actionSupport == NONE): color = hikari.Color.from_hex_code('#ff4747')
+    embed = hikari.Embed(title=action_name, description='Could not find the action.', color=hikari.Color.from_hex_code('#ff4747'))
 
-  embed = hikari.Embed(title=displayName, description=actionSupport, color=color)
   await context.respond(embed)
 
 @bot.command
-@lightbulb.command('supportdump', 'Outputs a formatted version of all supported actions for use in supported_actions.md')
+@lightbulb.command('supportdump', 'Outputs a formatted version of all supported actions for use in supportdump.md')
 @lightbulb.implements(lightbulb.SlashCommand)
 async def command(context):
-  actions = list(actionDict.keys())
-  result = ""
-  
-  for action in actions:
-    global prefix
-    if(actionDict.get(action) == FULL): prefix = "✅"
-    elif(actionDict.get(action) == PARTIAL): prefix = "⚠"
-    result += "{prefix} {action}\n\n".format(action=action, prefix=prefix)
 
-  f = open("supportdump.txt","w+", encoding="utf-8")
-  f.write(result)
-  f.close()
 
-  attachment = hikari.File(r"./supportdump.txt");
+  attachment = hikari.File(r"./action/supportdump.md");
 
   await context.respond(
       hikari.Embed(
-        title="✅ Success!",
-        description= "#️⃣ {amount} actions are currently supported.".format(amount=len(actions)),
+        title="Success!",
+        description= "{amount} actions are currently supported.".format(amount=len(action_list)),
         color=hikari.Color.from_hex_code('#76ff57')
       ), attachment=attachment
     )
@@ -76,15 +62,15 @@ async def command(context):
 
 
 @bot.listen(lightbulb.CommandErrorEvent)
-async def catchErrors(event):
-  errColor = hikari.Color.from_hex_code("#cf1d1d")
+async def catch_errors(event):
+  err_color = hikari.Color.from_hex_code("#cf1d1d")
 
   if(isinstance(event.exception, lightbulb.NotOwner)):
     await event.context.respond(
         hikari.Embed(
-        title="🔨 No Permission", 
+        title="No Permission", 
         description="*You do not have permission to execute this command.*", 
-        color=errColor
+        color=err_color
         )
       )
   else:
@@ -92,7 +78,7 @@ async def catchErrors(event):
       hikari.Embed(
         title="🔥 Waht?!",
         description="An internal error occurred 😭",
-        color = errColor
+        color = err_color
       )
     )
     raise event.exception
