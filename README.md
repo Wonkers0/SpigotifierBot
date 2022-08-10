@@ -11,9 +11,15 @@ Discord bot for [DF Spigotifier](https://github.com/Wonkers0/DFSpigot)'s discord
     _(make sure you have pip installed and that you are in the correct directory)_
 
 2. Make a `.env` file and in it type:
-   `TOKEN=<your bot token>`
+
+    ```
+    TOKEN=<your bot token>
+    GH_TOKEN=<your github token>
+    ```
 
     _(If you don't know how to make a discord bot read [this](https://discordpy.readthedocs.io/en/stable/discord.html))_
+
+    _(If you don't know how to get a github token read [this](https://catalyst.zoho.com/help/tutorials/githubbot/generate-access-token.html))_
 
 3. Run the bot with:
 
@@ -22,3 +28,14 @@ Discord bot for [DF Spigotifier](https://github.com/Wonkers0/DFSpigot)'s discord
 4. You should see that the bot is online and ready to go.
 
 **Never share your .env file!!**
+
+# Dev information
+
+If you added a new library and you dont know how requirement.txt works, you can run
+
+```
+pip install pipreqs
+pipreqs --encoding utf-8 .
+```
+
+_(Make sure you are in the correct directory)_

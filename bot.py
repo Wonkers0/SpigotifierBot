@@ -16,18 +16,19 @@ bot = lightbulb.BotApp(token=TOKEN)
 @lightbulb.command('issupported', 'Tells you if an action is supported or not.')
 @lightbulb.implements(lightbulb.SlashCommand)
 async def command(context):
+  if (len(context.options.name) >= 256):
+    return await context.respond(hikari.Embed(title='❌ Action name too long', description=f'There is no way that action exists anyway\n*Length: {len(context.options.name)}/256*', color=hikari.Color.from_hex_code('#ff4747')))
   mapping = []
   for action in action_list:
     mapping.append(str.lower(action))
     mapping.append(action)
   all_actions = dict(zip(i := iter(mapping), i))
-  print(all_actions)
 
   action_name = str.lower(context.options.name)
   if(action_name in all_actions): 
-    embed = hikari.Embed(title=action_name, description=f'✅ Found **{all_actions[action_name]}**', color=hikari.Color.from_hex_code('#76ff57'))
+    embed = hikari.Embed(title=context.options.name, description=f'✅ Found **{all_actions[action_name]}**', color=hikari.Color.from_hex_code('#76ff57'))
   else:
-    embed = hikari.Embed(title=action_name, description='❌ Could not find the action.', color=hikari.Color.from_hex_code('#ff4747'))
+    embed = hikari.Embed(title=context.options.name, description='❌ Could not find the action.', color=hikari.Color.from_hex_code('#ff4747'))
 
   await context.respond(embed)
 
