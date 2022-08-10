@@ -26,9 +26,9 @@ async def command(context):
 
   action_name = str.lower(context.options.name)
   if(action_name in all_actions): 
-    embed = hikari.Embed(title=context.options.name, description=f'✅ Found **{all_actions[action_name]}**', color=hikari.Color.from_hex_code('#76ff57'))
+    embed = hikari.Embed(title=context.options.name, description=f'✅ Suported **{all_actions[action_name]}**', color=hikari.Color.from_hex_code('#76ff57'))
   else:
-    embed = hikari.Embed(title=context.options.name, description='❌ Could not find the action.', color=hikari.Color.from_hex_code('#ff4747'))
+    embed = hikari.Embed(title=context.options.name, description='❌ Unsupported', color=hikari.Color.from_hex_code('#ff4747'))
 
   await context.respond(embed)
 
