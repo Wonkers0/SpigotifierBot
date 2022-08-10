@@ -25,7 +25,7 @@ Create one by heading to the [Discord Developer Portal](https://discord.com/deve
 5. Copy the token and paste it into the .env file in the root directory
 
 ```
-TOKEN=<token>
+TOKEN=<your bot token>
 ```
 
 ## Github Token
@@ -43,5 +43,5 @@ TOKEN=<token>
 
 ```
 ...
-GH_TOKEN=<github token>
+GH_TOKEN=<your github token>
 ```
