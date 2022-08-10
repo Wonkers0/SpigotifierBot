@@ -27,7 +27,9 @@ for file in repo.get_contents('utilities/actions'):
   name = file.name.replace('.java', '')
   actionInfo['actions'][name] = []
   content = b64decode(file.content).decode('utf-8')
-  for action in findall(r'(?<=\n\t{4}case ").+(?=": {)', content):
+  query = r'(?<=\n\t{4}case ").+(?=": {)'
+  if(name.startswith('If')): query = r'(?<=\n\t{3}case ").+(?=": {)'
+  for action in findall(query, content):
     actionInfo['actions'][name].append(action)
     actionInfo['allActions'].append(action)
 

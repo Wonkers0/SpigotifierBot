@@ -1,0 +1,5 @@
+hikari==2.0.0.dev109
+hikari_lightbulb==2.2.4
+lightbulb==0.1d
+PyGithub==1.55
+python-dotenv==0.20.0
