@@ -17,7 +17,7 @@ bot = lightbulb.BotApp(token=TOKEN)
 @lightbulb.implements(lightbulb.SlashCommand)
 async def command(context):
   if (len(context.options.name) >= 256):
-    return await context.respond(hikari.Embed(title='❌ Action name too long', description=f'There is no way that action exists anyway\n*Length: {len(context.options.name)}/256*', color=hikari.Color.from_hex_code('#ff4747')))
+    return await context.respond(hikari.Embed(title='😣 Invalid Input', description=f'There is no way that action exists anyway...\nLength: **{len(context.options.name)}/256**', color=hikari.Color.from_hex_code('#ff4747')))
   mapping = []
   for action in action_list:
     mapping.append(str.lower(action))
