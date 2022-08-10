@@ -1,6 +1,6 @@
 # SpigotifierBot
 
-Discord bot for [DF Spigotifier](https://github.com/Wonkers0/DFSpigot)'s discord server
+Discord bot for the [DF Spigotifier](https://github.com/Wonkers0/DFSpigot) discord server
 
 # How to run
 
@@ -17,9 +17,9 @@ Discord bot for [DF Spigotifier](https://github.com/Wonkers0/DFSpigot)'s discord
     GH_TOKEN=<your github token>
     ```
 
-    _(If you don't know how to make a discord bot read [this](https://discordpy.readthedocs.io/en/stable/discord.html))_
+    _(If you don't know how to make a discord bot read [this](https://github.com/Wonkers0/SpigotifierBot/blob/main/TOKENS.md#discord-token))_
 
-    _(If you don't know how to get a github token read [this](https://catalyst.zoho.com/help/tutorials/githubbot/generate-access-token.html))_
+    _(If you don't know how to get a github token read [this](https://github.com/Wonkers0/SpigotifierBot/blob/main/TOKENS.md#github-token))_
 
 3. Run the bot with:
 
