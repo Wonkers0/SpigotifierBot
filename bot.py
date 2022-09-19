@@ -4,7 +4,6 @@ import hikari
 from dotenv import load_dotenv
 
 from actionparser import actionInfo
-action_list = actionInfo['allActions'] + actionInfo['events']
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
@@ -19,16 +18,16 @@ async def command(context):
   if (len(context.options.name) >= 256):
     return await context.respond(hikari.Embed(title='😣 Invalid Input', description=f'There is no way that action exists anyway...\nLength: **{len(context.options.name)}/256**', color=hikari.Color.from_hex_code('#ff4747')))
   mapping = []
-  for action in action_list:
+  for action in actionInfo:
     mapping.append(str.lower(action))
     mapping.append(action)
   all_actions = dict(zip(i := iter(mapping), i))
 
   action_name = str.lower(context.options.name)
   if(action_name in all_actions): 
-    embed = hikari.Embed(title=context.options.name, description=f'✅ Suported **{all_actions[action_name]}**', color=hikari.Color.from_hex_code('#76ff57'))
+    embed = hikari.Embed(title=context.options.name, description=f'✅ Found **{all_actions[action_name]}**', color=hikari.Color.from_hex_code('#76ff57'))
   else:
-    embed = hikari.Embed(title=context.options.name, description='❌ Unsupported', color=hikari.Color.from_hex_code('#ff4747'))
+    embed = hikari.Embed(title=context.options.name, description='❌ Could not find the action.', color=hikari.Color.from_hex_code('#ff4747'))
 
   await context.respond(embed)
 
@@ -43,7 +42,7 @@ async def command(context):
   await context.respond(
       hikari.Embed(
         title="✅ Success!",
-        description= "#️⃣ {amount} actions are currently supported.".format(amount=len(action_list)),
+        description= "#️⃣ {amount} actions are currently supported.".format(amount=len(actionInfo)),
         color=hikari.Color.from_hex_code('#76ff57')
       ), attachment=attachment
     )
