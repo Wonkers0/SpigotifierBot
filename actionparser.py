@@ -1,5 +1,3 @@
-from base64 import b64decode
-from json import dumps
 from os import makedirs
 import os
 from github import Github
@@ -12,30 +10,54 @@ from re import findall
 
 TOKEN = os.getenv("GH_TOKEN")
 g = Github(TOKEN)
-actionInfo = []
+actionInfo = {}
+supportedActions = 0
+all_actions = []
 
-print("Parsing Actions")
-# Get everything from github
+def parse_actions():
+  print("Parsing Actions")
+  # Get everything from github
+  repo = g.get_repo('Wonkers0/DFSpigot')
 
-repo = g.get_repo('Wonkers0/DFSpigot')
+  actionparams = repo.get_contents("DONT IMPORT/actionparams.json").decoded_content.decode('utf-8')
 
-actionparams = repo.get_contents("DONT IMPORT/actionparams.json").decoded_content.decode('utf-8')
-matches = findall('"(.*?)": \[', actionparams)
-for match in matches:
-  if(len(match.split(":")) == 1):
-    continue
-  actionInfo.append(match.split(":")[1])
+  matches = findall('"(.*?)": \[', actionparams)
+  for match in matches:
+    split = match.split(":")
+    if(len(split) == 1):
+      continue
+    if(split[0] not in actionInfo.keys()):
+      actionInfo[split[0]] = []
 
-# Export everything to files
-## Create the action directory
-makedirs('action', exist_ok=True)
+    supportedActions += 1
+    actionInfo[split[0]].append("* " + split[1])
+    all_actions.append(split[1])
 
-md = open('./action/supportdump.md', 'w+', encoding='utf-8')
-md.write("\n".join(actionInfo))
-md.close()
+  # Export everything to files
+  ## Create the action directory
+  makedirs('action', exist_ok=True)
 
-json = open('./action/supportdump.json', 'w+', encoding='utf-8')
-json.write(actionparams)
-json.close()
+  md = open('./action/supportdump.md', 'w+', encoding='utf-8')
+  dump = "# Actions Support Dump\nThis lists all actions mentioned in actionparams.json"
+  for key in actionInfo.keys():
+    dump += "\n\n## " + key + "\n\n"
+    dump += "\n".join(actionInfo[key])
+  md.write(dump)
+  md.close()
 
-print("Parsing Actions Complete")
+  json = open('./action/supportdump.json', 'w+', encoding='utf-8')
+  json.write(actionparams)
+  json.close()
+
+  print("Parsing Actions Complete")
+
+def is_supported(action_name):
+  mapping = []
+  for action in all_actions:
+    mapping.append(str.lower(action))
+
+  action_name = str.lower(action_name)
+  if(action_name in mapping):
+    return all_actions[mapping.index(action_name)]
+  else:
+    return "NOT SUPPORTED"
