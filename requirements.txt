@@ -3,3 +3,4 @@ hikari_lightbulb==2.2.4
 lightbulb==0.1d
 PyGithub==1.55
 python-dotenv==0.20.0
+hikari-miru==1.1.2
